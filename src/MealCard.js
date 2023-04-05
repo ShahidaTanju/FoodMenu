@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const MealCard = ({ meal }) => {
     console.log(meal);
+    const [isExpended, setIsExpended] = useState(false);
+
 
     const { strMealThumb, strMeal, strInstructions, strCategory, strArea } = meal;
+
+    const changeExpended = () => {
+        setIsExpended(!isExpended);
+    };
 
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
@@ -16,7 +22,21 @@ const MealCard = ({ meal }) => {
                     </div>
                     Origin <div className="badge badge-outline"> :{strArea}</div>
                 </div>
-                <p>{strInstructions.slice(0, 100)}...<span className="text-grey-5000 font-bold cursor-pointer">Read More</span>{" "}</p>
+                {isExpended ? (
+                    <>
+                        {strInstructions}{" "}
+                        <span
+                            onClick={changeExpended}
+                            className="text-gray-500 font-bold cursor-pointer"
+                        >
+                            Show Less
+                        </span>
+                    </>
+                ) : (
+                    <>{strInstructions.slice(0, 100)}...{" "}
+                        <span onClick={changeExpended} className="text-grey-5000 font-bold cursor-pointer">Read More
+                        </span>{" "}</>
+                )}
                 <div className="card-actions justify-end">
                     <button className="btn btn-primary">Buy Now</button>
                 </div>

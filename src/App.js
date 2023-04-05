@@ -6,6 +6,7 @@ import MealCard from './MealCard';
 function App() {
 
   const [meals, setMeals] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [mealName, setMealName] = useState("");
 
   useEffect(() => {
@@ -15,6 +16,14 @@ function App() {
         setMeals(data.meals);
       });
   }, [mealName]);
+
+  useEffect(() => {
+    fetch(`https://www.themealdb.com/api/json/v1/1/categories.php?s=${categories}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data.categories);
+      });
+  }, [categories]);
 
   const search = (event) => {
 
@@ -29,6 +38,13 @@ function App() {
         <input
           onChange={search}
           type="text" placeholder="Search your food here" className="input input-bordered w-full" />
+        <select className="select select-primary w-full mt-5">
+          {
+            categories?.map((category) => (
+              <option value="{category?.strCategory">{category?.strCategory}</option>))
+          }
+
+        </select>
       </div>
       <div className="grid grid-cols-3 gap-10 p-20">
         {
